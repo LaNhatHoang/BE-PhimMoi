@@ -132,4 +132,19 @@ public class FilmService {
         Page<Object[]> pageObject = filmRepository.phimTypePage(type,pageable);
         return pageObject;
     }
+    public Page<Object[]> phimCategoryPage(String category, int page, int pageSize){
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Object[]> pageObject = filmRepository.phimCategoryPage(category,pageable);
+        return pageObject;
+    }
+    public Page<Object[]> phimLegionPage(String legion, int page, int pageSize){
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Object[]> pageObject = filmRepository.phimLegionPage(legion,pageable);
+        return pageObject;
+    }
+    public Page<Object[]> phimYearPage(int year, int page, int pageSize){
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Object[]> pageObject = filmRepository.phimYearPage(year,pageable);
+        return pageObject;
+    }
 }

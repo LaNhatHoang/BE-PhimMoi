@@ -24,87 +24,83 @@ public class FilmController {
         return ResponseEntity.ok(filmRepository.findAll());
     }
 
-    @GetMapping("/phimle/limit/{limit}")
-    public ResponseEntity<?> phimLeLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeLimit("movies", limit));
+    @GetMapping("/{type}/limit/{limit}")
+    public ResponseEntity<?> phimTypeLimit(@PathVariable String type, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimTypeLimit(type, limit));
     }
-    @GetMapping("/phimle/update/limit/{limit}")
-    public ResponseEntity<?> phimLeUpdateLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeUpdateLimit("movies", limit));
+    @GetMapping("/{type}/update/limit/{limit}")
+    public ResponseEntity<?> phimTypeUpdateLimit(@PathVariable String type, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimTypeUpdateLimit(type, limit));
     }
-    @GetMapping("/phimle/ss/update/limit/{limit}")
-    public ResponseEntity<?> phimLeSlideShowUpdateLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeSlideShowUpdateLimit("movies", limit));
+    @GetMapping("/{type}/ss/update/limit/{limit}")
+    public ResponseEntity<?> phimTypeSlideShowUpdateLimit(@PathVariable String type, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimTypeSlideShowUpdateLimit(type, limit));
     }
-    @GetMapping("/phimbo/limit/{limit}")
-    public ResponseEntity<?> phimBoLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeLimit("tvshows", limit));
-    }
-    @GetMapping("/phimbo/update/limit/{limit}")
-    public ResponseEntity<?> phimBoUpdateLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeUpdateLimit("tvshows", limit));
-    }
-    @GetMapping("/phimbo/ss/update/limit/{limit}")
-    public ResponseEntity<?> phimBoSlideShowUpdateLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeSlideShowUpdateLimit("tvshows", limit));
-    }
-    @GetMapping("/phimrap/limit/{limit}")
-    public ResponseEntity<?> phimRapLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimCategoryLimit("phimchieurap", limit));
+    @GetMapping("/category/{category}/limit/{limit}")
+    public ResponseEntity<?> phimCategoryLimit(@PathVariable String category, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimCategoryLimit(category, limit));
     }
     @GetMapping("/trend/limit/{limit}")
     public ResponseEntity<?> phimTrendLimit(@PathVariable int limit){
         return ResponseEntity.ok(filmService.phimTrendLimit(limit));
     }
-    @GetMapping("/phimle/trend/limit/{limit}")
-    public ResponseEntity<?> phimLeTrendLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeTrendLimit("movies", limit));
+    @GetMapping("/{type}/trend/limit/{limit}")
+    public ResponseEntity<?> phimTypeTrendLimit(@PathVariable String type, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimTypeTrendLimit(type, limit));
     }
-    @GetMapping("/phimbo/trend/limit/{limit}")
-    public ResponseEntity<?> phimBoTrendLimit(@PathVariable int limit){
-        return ResponseEntity.ok(filmService.phimTypeTrendLimit("tvshows", limit));
-    }
-    @GetMapping("/phimle/{url}")
-    public ResponseEntity<?> phimLeUrl(@PathVariable String url){
-        Film film = filmService.phimTypeUrl("movies", url);
+    @GetMapping("/{type}/{url}")
+    public ResponseEntity<?> phimTypeUrl(@PathVariable String type, @PathVariable String url){
+        Film film = filmService.phimTypeUrl(type, url);
         if(film == null){
             return ResponseEntity.status(404).body("");
         }
         return ResponseEntity.ok(film);
     }
-    @GetMapping("/phimbo/{url}")
-    public ResponseEntity<?> phimBoUrl(@PathVariable String url){
-        Film film = filmService.phimTypeUrl("tvshows", url);
-        if(film == null){
+    @GetMapping("/{type}/page/{page}/{pageSize}")
+    public ResponseEntity<?> phimTypePage(@PathVariable String type, @PathVariable int page, @PathVariable int pageSize){
+        if(page<0){
             return ResponseEntity.status(404).body("");
         }
-        return ResponseEntity.ok(film);
-    }
-    @GetMapping("/phimle/page/{page}/{pageSize}")
-    public ResponseEntity<?> phimLePage(@PathVariable int page, @PathVariable int pageSize){
-        Page<Object[]> pageObject = filmService.phimTypePage("movies", page, pageSize);
-        if(pageObject.getContent().size()==0){
+        Page<Object[]> pageObject = filmService.phimTypePage(type, page, pageSize);
+        if(page >= pageObject.getTotalPages()){
             return ResponseEntity.status(404).body("");
         }
         return ResponseEntity.ok(pageObject);
     }
-    @GetMapping("/phimbo/page/{page}/{pageSize}")
-    public ResponseEntity<?> phimBoPage(@PathVariable int page, @PathVariable int pageSize){
-        Page<Object[]> pageObject = filmService.phimTypePage("tvshows", page, pageSize);
-        if(pageObject.getContent().size()==0){
+    @GetMapping("/category/{category}/page/{page}/{pageSize}")
+    public ResponseEntity<?> phimCategoryPage(@PathVariable String category, @PathVariable int page, @PathVariable int pageSize){
+        if(page<0){
+            return ResponseEntity.status(404).body("");
+        }
+        Page<Object[]> pageObject = filmService.phimCategoryPage(category, page, pageSize);
+        if(page >= pageObject.getTotalPages()){
             return ResponseEntity.status(404).body("");
         }
         return ResponseEntity.ok(pageObject);
     }
-    @GetMapping("/category")
-    public ResponseEntity<?> category(){
-        return ResponseEntity.ok(categoryRepository.findAll());
+    @GetMapping("/legion/{legion}/page/{page}/{pageSize}")
+    public ResponseEntity<?> phimLegionPage(@PathVariable String legion, @PathVariable int page, @PathVariable int pageSize){
+        if(page<0){
+            return ResponseEntity.status(404).body("");
+        }
+        Page<Object[]> pageObject = filmService.phimLegionPage(legion, page, pageSize);
+        if(page >= pageObject.getTotalPages()){
+            return ResponseEntity.status(404).body("");
+        }
+        return ResponseEntity.ok(pageObject);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Film> getById(@PathVariable int id){
-        Film film = filmRepository.findById(id);
-        return ResponseEntity.ok(film);
+    @GetMapping("/year/{year}/page/{page}/{pageSize}")
+    public ResponseEntity<?> phimYearPage(@PathVariable int year, @PathVariable int page, @PathVariable int pageSize){
+        if(page<0){
+            return ResponseEntity.status(404).body("");
+        }
+        Page<Object[]> pageObject = filmService.phimYearPage(year, page, pageSize);
+        if(page >= pageObject.getTotalPages()){
+            return ResponseEntity.status(404).body("");
+        }
+        return ResponseEntity.ok(pageObject);
     }
+
     @PostMapping("/update/{id}")
     public ResponseEntity<String> update(@PathVariable int id){
         Film film = filmRepository.findById(id);

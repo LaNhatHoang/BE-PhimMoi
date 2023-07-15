@@ -34,4 +34,13 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query(value = "SELECT f.name, f.nameEng, f.urlImage, f.sub, f.url, f.type FROM Film f WHERE f.type = ?1 ORDER BY f.id DESC")
     Page<Object[]> phimTypePage(String type, Pageable pageable);
+
+    @Query(value = "SELECT f.name, f.nameEng, f.urlImage, f.sub, f.url, f.type FROM Film f JOIN f.categorys c WHERE c.type = ?1 ORDER BY f.id DESC")
+    Page<Object[]> phimCategoryPage(String category, Pageable pageable);
+
+    @Query(value = "SELECT f.name, f.nameEng, f.urlImage, f.sub, f.url, f.type FROM Film f WHERE f.legion = ?1 ORDER BY f.id DESC")
+    Page<Object[]> phimLegionPage(String legion, Pageable pageable);
+
+    @Query(value = "SELECT f.name, f.nameEng, f.urlImage, f.sub, f.url, f.type FROM Film f WHERE f.year = ?1 ORDER BY f.id DESC")
+    Page<Object[]> phimYearPage(int year, Pageable pageable);
 }
