@@ -43,4 +43,9 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     @Query(value = "SELECT f.name, f.nameEng, f.urlImage, f.sub, f.url, f.type FROM Film f WHERE f.year = ?1 ORDER BY f.id DESC")
     Page<Object[]> phimYearPage(int year, Pageable pageable);
+
+    @Query(value = "SELECT f.name, f.year, f.descriptions, f.urlImage, f.url, f.type FROM Film f " +
+            "WHERE LOWER(f.name) LIKE %?1% " +
+            "ORDER BY f.id DESC")
+    Page<Object[]> phimSearch(String searchValue, Pageable pageable);
 }

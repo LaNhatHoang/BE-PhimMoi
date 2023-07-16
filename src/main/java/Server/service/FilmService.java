@@ -147,4 +147,9 @@ public class FilmService {
         Page<Object[]> pageObject = filmRepository.phimYearPage(year,pageable);
         return pageObject;
     }
+    public Page<Object[]> phimSearch(String searchValue, int page, int pageSize){
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Object[]> pageObject = filmRepository.phimSearch(searchValue, pageable);
+        return pageObject;
+    }
 }

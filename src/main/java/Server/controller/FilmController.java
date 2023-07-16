@@ -100,7 +100,26 @@ public class FilmController {
         }
         return ResponseEntity.ok(pageObject);
     }
-
+    @GetMapping("/search/page/{page}/{pageSize}")
+    public ResponseEntity<?> phimSearch(@PathVariable int page, @PathVariable int pageSize, @RequestParam(value = "search", defaultValue = "") String searchValue){
+        if(searchValue.equals("")){
+            return ResponseEntity.status(404).body("");
+        }
+        if(page<0){
+            return ResponseEntity.status(404).body("");
+        }
+        Page<Object[]> pageObject = filmService.phimSearch(searchValue, page, pageSize);
+        if(pageObject.getTotalPages()==0){
+            if(page > 0){
+                return ResponseEntity.status(404).body("");
+            }
+            return ResponseEntity.ok(pageObject);
+        }
+        if(page >= pageObject.getTotalPages()){
+            return ResponseEntity.status(404).body("");
+        }
+        return ResponseEntity.ok(pageObject);
+    }
     @PostMapping("/update/{id}")
     public ResponseEntity<String> update(@PathVariable int id){
         Film film = filmRepository.findById(id);
