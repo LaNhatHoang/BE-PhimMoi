@@ -1,27 +1,20 @@
-package Server.data;
+package Server.entityFilm;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ServerPart {
+public class Blog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     @Column(columnDefinition = "text")
+    private String description;
     private String url;
-    private String type;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private Part part;
 }

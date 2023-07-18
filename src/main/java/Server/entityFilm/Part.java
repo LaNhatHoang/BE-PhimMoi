@@ -1,8 +1,10 @@
-package Server.data;
+package Server.entityFilm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -10,16 +12,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Actor {
+public class Part {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String urlImg;
-    private String role;
 
     @ManyToOne
     @JoinColumn
     @JsonIgnore
     private Film film;
+
+    @OneToMany(mappedBy = "part")
+    private List<ServerPart> servers;
 }

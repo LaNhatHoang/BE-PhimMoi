@@ -1,8 +1,10 @@
-package Server.data;
+package Server.entityFilm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -10,18 +12,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Server {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @Column(columnDefinition = "text")
-    private String url;
     private String type;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToMany
+    @JoinTable
     @JsonIgnore
-    private Film film;
-
+    private List<Film> films;
 }

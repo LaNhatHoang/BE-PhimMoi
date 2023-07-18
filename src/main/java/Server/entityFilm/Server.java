@@ -1,4 +1,4 @@
-package Server.data;
+package Server.entityFilm;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -10,16 +10,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Director {
+public class Server {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String urlImg;
-    private String role;
+    @Column(columnDefinition = "text")
+    private String url;
+    private String type;
 
     @ManyToOne
     @JoinColumn
     @JsonIgnore
     private Film film;
+
 }

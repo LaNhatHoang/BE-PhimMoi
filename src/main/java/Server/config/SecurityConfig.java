@@ -23,7 +23,8 @@ public class SecurityConfig {
             "/api/v1/user/login",
             "/api/v1/user/register",
             "/api/v1/film/**",
-            "/api/v1/file/**"
+            "/api/v1/file/**",
+            "/api/v1/blog/**"
     };
     private static final String[] ADMIN_URLs = {
             "/admin",

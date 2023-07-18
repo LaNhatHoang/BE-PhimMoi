@@ -1,4 +1,4 @@
-package Server.data;
+package Server.entityFilm;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +28,7 @@ public class Film {
     private int review;
     private String urlImage;
     private String urlImage500;
+    private String urlImagePhimmoi;
     private String urlImageTmdb;
     private String urlImageTmdb500;
     private int time;

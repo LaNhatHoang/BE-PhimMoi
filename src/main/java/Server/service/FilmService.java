@@ -1,6 +1,6 @@
 package Server.service;
 
-import Server.data.Film;
+import Server.entityFilm.Film;
 import Server.repository.CategoryRepository;
 import Server.repository.FilmRepository;
 import com.google.gson.JsonArray;
@@ -19,19 +19,6 @@ import java.util.List;
 public class FilmService {
     private final FilmRepository filmRepository;
     private final CategoryRepository categoryRepository;
-    @Value("${host.nextjs}")
-    private String hostNextjs;
-
-    private String parseUrl(String type, String url){
-        if(type.equals("movies")){
-            return hostNextjs + "/phim-le/" + url;
-        }
-        return hostNextjs + "/phim-bo/" + url;
-    }
-
-    public void saveFilm(Film film){
-        filmRepository.save(film);
-    }
 
     public String phimTypeLimit(String type, int limit){
         List<Object[]> results = filmRepository.phimTypeLimit(type, limit);
@@ -151,5 +138,18 @@ public class FilmService {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Object[]> pageObject = filmRepository.phimSearch(searchValue, pageable);
         return pageObject;
+    }
+    public String phimTypeRandom(String type, int limit){
+        List<Object[]> results = filmRepository.phimTypeRandom(type,limit);
+        JsonArray jsonArray = new JsonArray();
+        for(Object[] result:results){
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("name", (String) result[0]);
+            jsonObject.addProperty("urlImage", (String) result[1]);
+            jsonObject.addProperty("url", (String) result[2]);
+            jsonObject.addProperty("type", (String) result[3]);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
     }
 }

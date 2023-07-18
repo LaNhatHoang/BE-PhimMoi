@@ -1,9 +1,9 @@
 package Server.controller;
 
-import Server.data.Film;
-import Server.repository.CategoryRepository;
+import Server.entityFilm.Film;
 import Server.repository.FilmRepository;
 import Server.service.FilmService;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class FilmController {
     private final FilmRepository filmRepository;
     private final FilmService filmService;
-    private final CategoryRepository categoryRepository;
+
     @GetMapping("/all")
     public ResponseEntity<List<Film>> getAll(){
         return ResponseEntity.ok(filmRepository.findAll());
@@ -47,6 +47,20 @@ public class FilmController {
     @GetMapping("/{type}/trend/limit/{limit}")
     public ResponseEntity<?> phimTypeTrendLimit(@PathVariable String type, @PathVariable int limit){
         return ResponseEntity.ok(filmService.phimTypeTrendLimit(type, limit));
+    }
+    @GetMapping("/{type}/random/limit/{limit}")
+    public ResponseEntity<?> phimTypeRandom(@PathVariable String type, @PathVariable int limit){
+        return ResponseEntity.ok(filmService.phimTypeRandom(type, limit));
+    }
+    @GetMapping("/random")
+    public ResponseEntity<?> phimRandom(){
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("name", "Vệ Binh Dải Ngân Hà 3");
+        jsonObject.addProperty("year", 2023);
+        jsonObject.addProperty("urlImage", "https://image.tmdb.org/t/p/w500/ypKROTROwMdbUteTMG6CP2Y4yug.jpg");
+        jsonObject.addProperty("url", "ve-binh-dai-ngan-ha-3");
+        jsonObject.addProperty("type", "movies");
+        return ResponseEntity.ok(jsonObject.toString());
     }
     @GetMapping("/{type}/{url}")
     public ResponseEntity<?> phimTypeUrl(@PathVariable String type, @PathVariable String url){
@@ -126,12 +140,5 @@ public class FilmController {
         film.setUpdateAt(new Date(System.currentTimeMillis()));
         filmRepository.save(film);
         return ResponseEntity.ok("Update");
-    }
-    @PostMapping("/create/{id}")
-    public ResponseEntity<String> create(@PathVariable int id){
-        Film film = filmRepository.findById(id);
-        film.setCreateAt(new Date(System.currentTimeMillis()));
-        filmRepository.save(film);
-        return ResponseEntity.ok("Create");
     }
 }

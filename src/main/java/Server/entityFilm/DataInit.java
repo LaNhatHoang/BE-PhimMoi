@@ -1,24 +1,14 @@
-package Server.data;
+package Server.entityFilm;
 
 import Server.repository.*;
-import Server.service.FilmService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.FileReader;
-import java.security.SecureRandom;
-import java.util.*;
 
 @Component
 @RequiredArgsConstructor
-public class DataService implements CommandLineRunner {
+public class DataInit implements CommandLineRunner {
     private final FilmRepository filmRepository;
     private final CategoryRepository categoryRepository;
     private final ServerRepository serverRepository;
@@ -26,27 +16,28 @@ public class DataService implements CommandLineRunner {
     private final DirectorRepository directorRepository;
     private final ActorRepository actorRepository;
     private final ServerPartRepository serverPartRepository;
+    private final BlogRepository blogRepository;
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-//        try(FileReader reader = new FileReader("D:/Nodejs/crawl/data.json")) {
+//        try(FileReader reader = new FileReader("D:/Nodejs/crawl/blog.json")) {
 //            JsonParser jsonParser = new JsonParser();
 //            JsonElement jsonElement = jsonParser.parse(reader);
 //            JsonArray jsonArray = jsonElement.getAsJsonArray();
 //
 //            Gson gson = new Gson();
-//            for (int i = jsonArray.size() - 1; i >= 0; i--) {
-//                FilmJson filmJson = gson.fromJson(jsonArray.get(i), FilmJson.class);
-//                SecureRandom random = new SecureRandom();
-//                Film film = filmRepository.findByUrl(filmJson.getUrl());
-//                film.setReview(random.nextInt(100));
-//                film.setUrlTrailer(filmJson.getUrlTrailer());
-//                System.out.println(filmJson.getUrl());
+//            for (int i = 0; i < jsonArray.size(); i++) {
+//                Blog blog = gson.fromJson(jsonArray.get(i), Blog.class);
+//                Blog b = new Blog();
+//                b.setName(blog.getName());
+//                b.setDescription(blog.getDescription());
+//                b.setUrl(blog.getUrl());
+//                blogRepository.save(b);
+//                System.out.println(i);
 //            }
 //        }catch (Exception e){
 //
 //        }
-
 
 
 //        try(FileReader reader = new FileReader("D:/Nodejs/crawl/data.json")){
@@ -60,9 +51,9 @@ public class DataService implements CommandLineRunner {
 //                SecureRandom random = new SecureRandom();
 //                Film film = Film.builder().name(filmJson.getName()).nameEng(filmJson.getNameEng()).url(filmJson.getUrl())
 //                        .year(filmJson.getYear()).sub(filmJson.getSub())
-//                        .type(filmJson.getType()).urlImage(filmJson.getUrlImage())
-//                        .time(filmJson.getTime()).country(filmJson.getCountry())
-//                        .rated(filmJson.getRated()).star(random.nextInt(11)).share(random.nextInt(100))
+//                        .type(filmJson.getType()).urlImagePhimmoi(filmJson.getUrlImage())
+//                        .time(filmJson.getTime()).country(filmJson.getCountry()).review(random.nextInt(100)).urlTrailer(filmJson.getUrlTrailer())
+//                        .rated(filmJson.getRated()).star(random.nextInt(6)+5).share(random.nextInt(99)+1)
 //                        .legion(filmJson.getLegion()).descriptions(String.join("<br>", filmJson.getDescriptions()))
 //                        .createAt(new Date(System.currentTimeMillis()))
 //                        .updateAt(new Date(System.currentTimeMillis()))
@@ -74,8 +65,6 @@ public class DataService implements CommandLineRunner {
 //                List<Part> partList = filmJson.getParts();
 //                List<Director> directorList = filmJson.getDirectors();
 //                List<Actor> actorList = filmJson.getActors();
-//
-//                System.out.println(film.getName());
 //
 //                for(Category c: listCtg){
 //                    Category category = categoryRepository.findByName(c.getName()) ;
@@ -130,7 +119,7 @@ public class DataService implements CommandLineRunner {
 //                    actorRepository.save(actor);
 //                    filmRepository.save(film);
 //                }
-//                System.out.println(i);
+//                System.out.println( i + " " + film.getName());
 //            }
 //        }catch (Exception e){
 //            e.printStackTrace();

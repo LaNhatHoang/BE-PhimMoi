@@ -1,7 +1,5 @@
-package Server.data;
+package Server.entityFilm;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 
 import java.util.List;

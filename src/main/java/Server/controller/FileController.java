@@ -9,15 +9,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
-@RequestMapping("/api/v1/file")
+@RequestMapping("/api/v1/file/")
 @RequiredArgsConstructor
 public class FileController {
     private final FileService fileService;
-    @GetMapping("/{fileName}")
-    public ResponseEntity<byte[]> getFile(@PathVariable String fileName){
+
+    @GetMapping("/download")
+    public ResponseEntity<?> upload() throws IOException {
+        return ResponseEntity.ok(fileService.download());
+    }
+    @GetMapping("/image/{fileName}")
+    public ResponseEntity<?> getImage(@PathVariable String fileName){
         try{
-            byte[] bytes =  fileService.readFileContent(fileName);
+            byte[] bytes =  fileService.readImage(fileName);
+            return  ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
+        }catch (Exception e){
+            return ResponseEntity.status(404).body("");
+        }
+    }
+    @GetMapping("/image500/{fileName}")
+    public ResponseEntity<byte[]> getImage500(@PathVariable String fileName){
+        try{
+            byte[] bytes =  fileService.readImage500(fileName);
             return  ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
         }catch (Exception e){
             return ResponseEntity.noContent().build();

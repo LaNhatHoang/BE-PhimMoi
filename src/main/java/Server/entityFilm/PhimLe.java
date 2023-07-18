@@ -1,6 +1,5 @@
-package Server.data;
+package Server.entityFilm;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.util.List;

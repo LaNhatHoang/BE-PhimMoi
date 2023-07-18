@@ -1,6 +1,6 @@
 package Server.repository;
 
-import Server.data.Film;
+import Server.entityFilm.Film;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -48,4 +48,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "WHERE LOWER(f.name) LIKE %?1% " +
             "ORDER BY f.id DESC")
     Page<Object[]> phimSearch(String searchValue, Pageable pageable);
+
+    @Query(value = "SELECT f.name, f.urlImage, f.url, f.type FROM Film f WHERE f.type = ?1 ORDER BY RAND() LIMIT ?2")
+    List<Object[]> phimTypeRandom(String type, int limit);
 }
