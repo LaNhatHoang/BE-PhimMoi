@@ -43,7 +43,7 @@ public class FileService {
             filmRepository.save(film);
             System.out.println(film.getId() + " " + film.getName());
         }
-        return "upload thanh cong";
+        return "Dowload image success !";
     }
     public byte[] readImage(String fileName){
         try {

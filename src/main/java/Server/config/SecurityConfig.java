@@ -19,17 +19,13 @@ public class SecurityConfig {
     private final JwtFilter jwtFilter;
     private static final String[] PERMIT_URLs = {
             "/",
-            "/token",
             "/api/v1/user/login",
             "/api/v1/user/register",
             "/api/v1/film/**",
             "/api/v1/file/**",
-            "/api/v1/blog/**"
     };
     private static final String[] ADMIN_URLs = {
             "/admin",
-            "/api/v1/book/add",
-            "/api/v1/book/delete/**"
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

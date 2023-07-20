@@ -28,8 +28,5 @@ public class demo {
     public ResponseEntity<String> user(){
         return ResponseEntity.ok("user");
     }
-//    @GetMapping("/token")
-//    public ResponseEntity<List<AccessToken>> token(){
-//        return ResponseEntity.ok(accessTokenRepository.findAll());
-//    }
+
 }

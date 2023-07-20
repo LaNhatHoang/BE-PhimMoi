@@ -1,6 +1,7 @@
 package Server.service;
 
 import Server.entityFilm.Film;
+import Server.repository.BlogRepository;
 import Server.repository.CategoryRepository;
 import Server.repository.FilmRepository;
 import com.google.gson.JsonArray;
@@ -18,7 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FilmService {
     private final FilmRepository filmRepository;
-    private final CategoryRepository categoryRepository;
+
+    private final BlogRepository blogRepository;
 
     public String phimTypeLimit(String type, int limit){
         List<Object[]> results = filmRepository.phimTypeLimit(type, limit);
@@ -148,6 +150,30 @@ public class FilmService {
             jsonObject.addProperty("urlImage", (String) result[1]);
             jsonObject.addProperty("url", (String) result[2]);
             jsonObject.addProperty("type", (String) result[3]);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+    public String blogAll(){
+        List<Object[]> list = blogRepository.blogAll();
+        JsonArray jsonArray = new JsonArray();
+        for(Object[] result:list){
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("name", (String) result[0]);
+            jsonObject.addProperty("description", (String) result[1]);
+            jsonObject.addProperty("url", (String) result[2]);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
+    }
+    public String blogLimit(int limit){
+        List<Object[]> list = blogRepository.blogLimit(limit);
+        JsonArray jsonArray = new JsonArray();
+        for(Object[] result:list){
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("name", (String) result[0]);
+            jsonObject.addProperty("description", (String) result[1]);
+            jsonObject.addProperty("url", (String) result[2]);
             jsonArray.add(jsonObject);
         }
         return jsonArray.toString();

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class DataInitializer implements CommandLineRunner {
+public class InitData implements CommandLineRunner {
     private final UserRepository userRepository;
 
     @Override

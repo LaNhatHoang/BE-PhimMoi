@@ -1,6 +1,8 @@
 package Server.controller;
 
+import Server.entityFilm.Blog;
 import Server.entityFilm.Film;
+import Server.repository.BlogRepository;
 import Server.repository.FilmRepository;
 import Server.service.FilmService;
 import com.google.gson.JsonObject;
@@ -18,11 +20,7 @@ import java.util.List;
 public class FilmController {
     private final FilmRepository filmRepository;
     private final FilmService filmService;
-
-    @GetMapping("/all")
-    public ResponseEntity<List<Film>> getAll(){
-        return ResponseEntity.ok(filmRepository.findAll());
-    }
+    private final BlogRepository blogRepository;
 
     @GetMapping("/{type}/limit/{limit}")
     public ResponseEntity<?> phimTypeLimit(@PathVariable String type, @PathVariable int limit){
@@ -134,11 +132,27 @@ public class FilmController {
         }
         return ResponseEntity.ok(pageObject);
     }
-    @PostMapping("/update/{id}")
+    @GetMapping("/blog/all")
+    public ResponseEntity<?> blogAll(){
+        return ResponseEntity.ok(filmService.blogAll());
+    }
+    @GetMapping("/blog/limit/{limit}")
+    public ResponseEntity<?> blogLimit(@PathVariable int limit){
+        return ResponseEntity.ok(filmService.blogLimit(limit));
+    }
+    @GetMapping("/blog/{url}")
+    public ResponseEntity<?> blogUrl(@PathVariable String url){
+        Blog blog = blogRepository.findByUrl(url);
+        if(blog==null){
+            return ResponseEntity.status(404).body("");
+        }
+        return ResponseEntity.ok(blog);
+    }
+    @GetMapping("/update/{id}")
     public ResponseEntity<String> update(@PathVariable int id){
         Film film = filmRepository.findById(id);
         film.setUpdateAt(new Date(System.currentTimeMillis()));
         filmRepository.save(film);
-        return ResponseEntity.ok("Update");
+        return ResponseEntity.ok("Update success !");
     }
 }
