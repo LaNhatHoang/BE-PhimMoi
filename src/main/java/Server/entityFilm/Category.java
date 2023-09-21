@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,8 +20,7 @@ public class Category {
     private String name;
     private String type;
 
-    @ManyToMany
-    @JoinTable
+    @ManyToMany(mappedBy = "categories")
     @JsonIgnore
-    private List<Film> films;
+    private Set<Film> films;
 }

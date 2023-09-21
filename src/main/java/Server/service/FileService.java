@@ -30,18 +30,22 @@ public class FileService {
             Files.createDirectories(storageImage);
             Files.createDirectories(storageImage500);
         }catch (Exception e){
-
+            System.out.println(e.getMessage());
         }
         List<Film> filmList = filmRepository.findAll();
         for(Film film:filmList){
-            URL url = new URL(film.getUrlImagePhimmoi());
-            String randomName = UUID.randomUUID().toString() + ".jpg";
-            Path destinationFilePath = storageImage.resolve(Paths.get(randomName)).normalize().toAbsolutePath();
-            InputStream inputStream = url.openStream();
-            Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
-            film.setUrlImage(randomName);
-            filmRepository.save(film);
-            System.out.println(film.getId() + " " + film.getName());
+            try{
+                URL url = new URL(film.getUrlImagePhimmoi());
+                String randomName = UUID.randomUUID().toString() + ".jpg";
+                Path destinationFilePath = storageImage.resolve(Paths.get(randomName)).normalize().toAbsolutePath();
+                InputStream inputStream = url.openStream();
+                Files.copy(inputStream, destinationFilePath, StandardCopyOption.REPLACE_EXISTING);
+                film.setUrlImage(randomName);
+                filmRepository.save(film);
+                System.out.println(film.getId() + " " + film.getName());
+            }catch (Exception e){
+                System.out.println(film.getName()+" - "+e.toString());
+            }
         }
         return "Dowload image success !";
     }

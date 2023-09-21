@@ -1,5 +1,6 @@
 package Server.service;
 
+import Server.botTele.MyBot;
 import Server.entity.LoginFailed;
 import Server.entity.User;
 import Server.jwt.JwtService;
@@ -20,9 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final HashMap<String, LoginFailed> map;
-    private final long timeBlock = 10 * 1000L;
-    private final int maxLoginFailed = 5;
+    private final MyBot myBot;
 
     public String register(User user){
         User user1 = userRepository.findByUsername(user.getUsername());
@@ -40,44 +39,11 @@ public class UserService {
         String ip = request.getRemoteAddr();
         User u = userRepository.findByUsername(user.getUsername());
         if(u == null){
-            return "tk ko ton tai";
+            return "Account is not exist";
         }
         if(!user.getPassword().equals(u.getPassword())){
-            if(map.containsKey(ip)){
-                LoginFailed loginFailed = map.get(ip);
-                if(!loginFailed.isBlock()){
-                    int countLoginFailed = loginFailed.getCount();
-                    if(countLoginFailed < maxLoginFailed -1 ){
-                        loginFailed.setCount(countLoginFailed+1);
-                        map.replace(ip, loginFailed);
-                        return "sai tk" + Integer.toString(countLoginFailed+1);
-                    }
-                    else{
-                        loginFailed.setBlock(true);
-                        loginFailed.setTimeBlock(new Date(System.currentTimeMillis() + timeBlock));
-                        loginFailed.setCount(maxLoginFailed);
-                        map.replace(ip,loginFailed);
-                        return "khoa tk 10 giay";
-                    }
-                }
-                long time = loginFailed.getTimeBlock().getTime() - System.currentTimeMillis();
-                if(time>0){
-                    return "khoa tk " + Long.toString(time);
-                }
-                loginFailed.setCount(0);
-                loginFailed.setBlock(false);
-                loginFailed.setTimeBlock(new Date(System.currentTimeMillis()));
-                map.replace(ip, loginFailed);
-                return "sai mk 1 lan";
-            }
-            else{
-                LoginFailed loginFailed = new LoginFailed(0,false,new Date(System.currentTimeMillis()));
-                map.put(ip,loginFailed);
-                System.out.println(ip);
-                System.out.println(loginFailed.getCount());
-                System.out.println(loginFailed.getTimeBlock());
-            }
-            return "sai mk";
+            myBot.sendText("Login failed in ip "+ip+" | "+new Date(System.currentTimeMillis()).toString());
+            return "Wrong username or password";
         }
         String accessToken = jwtService.generateAccessToken(u.getUsername());
         String refreshToken = jwtService.generateRefreshToken(u.getUsername());

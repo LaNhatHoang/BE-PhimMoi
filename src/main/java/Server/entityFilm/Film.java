@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,19 +42,19 @@ public class Film {
     @Column(columnDefinition = "text")
     private String descriptions;
 
-    @ManyToMany(mappedBy = "films")
-    List<Category> categorys;
+    @ManyToMany
+    private Set<Category> categories;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.REMOVE)
     private List<Server> servers;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.REMOVE)
     private List<Part> parts;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.REMOVE)
     private List<Director> directors;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(mappedBy = "film", cascade = CascadeType.REMOVE)
     private List<Actor> actors;
 
 }

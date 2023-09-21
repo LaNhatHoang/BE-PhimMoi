@@ -1,7 +1,7 @@
-# FROM java:openjdk-7-jdk-alpine
+FROM openjdk:17-alpine
 # RUN sudo apt install oracle-java17-installer --install-recommends
-FROM alpine:3.16.0
-RUN apk add --no-cache java-cacerts openjdk17-jdk
+# FROM alpine:3.16.0
+# RUN apk add --no-cache java-cacerts openjdk17-jdk
 WORKDIR /app
 EXPOSE 8080
 # RUN apt install oracle-java17-installer --install-recommends

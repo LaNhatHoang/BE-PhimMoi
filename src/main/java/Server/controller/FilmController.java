@@ -22,6 +22,10 @@ public class FilmController {
     private final FilmService filmService;
     private final BlogRepository blogRepository;
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(filmRepository.findAll());
+    }
     @GetMapping("/{type}/limit/{limit}")
     public ResponseEntity<?> phimTypeLimit(@PathVariable String type, @PathVariable int limit){
         return ResponseEntity.ok(filmService.phimTypeLimit(type, limit));
@@ -148,11 +152,5 @@ public class FilmController {
         }
         return ResponseEntity.ok(blog);
     }
-    @GetMapping("/update/{id}")
-    public ResponseEntity<String> update(@PathVariable int id){
-        Film film = filmRepository.findById(id);
-        film.setUpdateAt(new Date(System.currentTimeMillis()));
-        filmRepository.save(film);
-        return ResponseEntity.ok("Update success !");
-    }
+
 }

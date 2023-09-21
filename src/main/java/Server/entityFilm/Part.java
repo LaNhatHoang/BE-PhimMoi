@@ -24,6 +24,6 @@ public class Part {
     @JsonIgnore
     private Film film;
 
-    @OneToMany(mappedBy = "part")
+    @OneToMany(mappedBy = "part", cascade = CascadeType.ALL)
     private List<ServerPart> servers;
 }

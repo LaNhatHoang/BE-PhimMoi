@@ -26,6 +26,7 @@ public class SecurityConfig {
     };
     private static final String[] ADMIN_URLs = {
             "/admin",
+            "/api/v1/admin/**",
     };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -41,7 +42,6 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-
         ;
         return http.build();
     }
